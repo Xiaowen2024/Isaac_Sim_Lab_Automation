@@ -82,6 +82,29 @@ The executor writes:
 - `render.mp4`
 - `render_run.json`
 
+## Reference trace replay
+
+The reference replay that matches
+`remote_runs/live_exec_officialbase_leg0_vortex_lowdrop_try2/trace_render/render_trace_h264.mp4`
+uses the saved metadata from that run directory:
+
+- `seed = 0`
+- `task_mode = b`
+- `holder_slot_index = 1`
+- `camera_preset = side_wide`
+
+Re-render it with:
+
+```bash
+./isaaclab.sh -p wetlab_benchmark/pick_place/live_exec/render_state_trace.py \
+  --input_dir wetlab_benchmark/remote_runs/live_exec_officialbase_leg0_vortex_lowdrop_try2 \
+  --asset_profile contact_refined \
+  --camera_preset side_wide
+```
+
+The replay script reads `render_run.json` and `state_trace.jsonl`, then writes
+the reconstructed frames and `trace_render/render_trace_h264.mp4`.
+
 ## Failure Semantics
 
 The run aborts if:
