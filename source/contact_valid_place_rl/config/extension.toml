@@ -1,0 +1,19 @@
+[package]
+version = "0.1.0"
+category = "isaaclab"
+readme = "README.md"
+title = "Contact Valid Place RL"
+author = "Contact Valid Place RL Developers"
+maintainer = "Contact Valid Place RL Developers"
+description = "Isaac Lab RL task for contact-valid tube placement."
+repository = ""
+keywords = ["isaaclab", "reinforcement-learning", "robotics", "contact"]
+
+[dependencies]
+"isaaclab" = {}
+"isaaclab_assets" = {}
+"isaaclab_rl" = {}
+"isaaclab_tasks" = {}
+
+[[python.module]]
+name = "contact_valid_place_rl"

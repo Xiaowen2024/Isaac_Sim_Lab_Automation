@@ -1,0 +1,107 @@
+#usda 1.0
+(
+    defaultPrim = "Tube"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "Tube" (
+    prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI"]
+)
+{
+    bool physics:rigidBodyEnabled = true
+    float physics:mass = 0.008
+
+    def Scope "Looks"
+    {
+        def Material "TubeBodyVisual"
+        {
+            color3f inputs:diffuseColor = (0.92, 0.95, 1.0)
+            float inputs:opacity = 0.35
+            float inputs:roughness = 0.55
+        }
+
+        def Material "TubeCapVisual"
+        {
+            color3f inputs:diffuseColor = (0.93, 0.27, 0.06)
+            float inputs:roughness = 0.65
+        }
+
+        def Material "TubeGlassPhysics" (
+            prepend apiSchemas = ["PhysicsMaterialAPI"]
+        )
+        {
+            float physics:staticFriction = 1.5
+            float physics:dynamicFriction = 1.2
+            float physics:restitution = 0.02
+        }
+    }
+
+    def Scope "Visuals"
+    {
+        def Cylinder "body_visual"
+        {
+            token axis = "Z"
+            double radius = 0.0145
+            double height = 0.1146
+            color3f[] primvars:displayColor = [(0.92, 0.95, 1.0)]
+            float[] primvars:displayOpacity = [0.35]
+            rel material:binding = </Tube/Looks/TubeBodyVisual>
+            double3 xformOp:translate = (0, 0, 0.0573)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Cylinder "cap_visual"
+        {
+            token axis = "Z"
+            double radius = 0.01775
+            double height = 0.0124
+            color3f[] primvars:displayColor = [(0.93, 0.27, 0.06)]
+            rel material:binding = </Tube/Looks/TubeCapVisual>
+            double3 xformOp:translate = (0, 0, 0.11965)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    def Scope "Collisions"
+    {
+        def Cylinder "body_collision" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            token axis = "Z"
+            double radius = 0.01397
+            double height = 0.11265
+            token visibility = "invisible"
+            rel physics:material:binding = </Tube/Looks/TubeGlassPhysics>
+            double3 xformOp:translate = (0, 0, 0.056325)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Cylinder "upper_sleeve_collision" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            token axis = "Z"
+            double radius = 0.0145
+            double height = 0.030
+            token visibility = "invisible"
+            rel physics:material:binding = </Tube/Looks/TubeGlassPhysics>
+            double3 xformOp:translate = (0, 0, 0.101)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+
+        def Cylinder "cap_collision" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            token axis = "Z"
+            double radius = 0.0176
+            double height = 0.0124
+            token visibility = "invisible"
+            rel physics:material:binding = </Tube/Looks/TubeGlassPhysics>
+            double3 xformOp:translate = (0, 0, 0.11965)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+}
